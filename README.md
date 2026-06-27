@@ -4,8 +4,13 @@
 
 ### Реализованные сценарии
 
-Созданы UI-тесты, покрывающие страницы 'qa-stellarburgers.education-services.ru', 'qa-stellarburgers.education-services.ru/feed', 'qa-stellarburgers.education-services.ru/login', 'qa-stellarburgers.education-services.ru/account/profile', 
-'qa-stellarburgers.education-services.ru/account/order-history', 'qa-stellarburgers.education-services.ru/forgot-password', 
+Созданы UI-тесты, покрывающие страницы:
+'qa-stellarburgers.education-services.ru',
+'qa-stellarburgers.education-services.ru/feed',
+'qa-stellarburgers.education-services.ru/login',
+'qa-stellarburgers.education-services.ru/account/profile',
+'qa-stellarburgers.education-services.ru/account/order-history',
+'qa-stellarburgers.education-services.ru/forgot-password', 
 'qa-stellarburgers.education-services.ru/reset-password'
 
 Создан allure-отчёт
