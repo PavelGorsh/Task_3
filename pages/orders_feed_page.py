@@ -25,7 +25,7 @@ class OrdersFeedPage(BasePage):
         self.wait_for_load(self.driver, OFPL.ORDERS_QUANTITY_ALL_TIME)
         self.wait_for_load(self.driver, OFPL.ORDERS_QUANTITY_TODAY)
 
-    def wait_for_change_orders_in_work(self):
+    def wait_for_change_orders_in_work_to_number(self):
         self.wait_for_change_text_of_element(self.driver, OFPL.ID_ORDER_LIST_FROM_IN_WORK, "Все текущие заказы готовы!")
 
     # НАЖАТИЯ
@@ -110,22 +110,15 @@ class OrdersFeedPage(BasePage):
                 id_order_from_order_history in ids_orders_list and 
                 id_order_from_order_window_mod == id_order_from_order_history)
         
-    @allure.step('Проверяем нахождения созданного заказа на странице «Лента заказов» в разделе «Готовы»')
-    def check_contain_placed_order_from_history_in_complited(self, id_order_from_order_window, id_order_from_order_history):
-        id_order_from_order_window_mod = "0" + id_order_from_order_window
-        id_order_from_order_history_mod = id_order_from_order_history.replace("#", "")
-        self.wait_for_load_orders()
-        ids_orders_list = self.get_ids_orders_complited()
-        assert (id_order_from_order_window_mod in ids_orders_list and 
-                id_order_from_order_history_mod in ids_orders_list and 
-                id_order_from_order_window_mod == id_order_from_order_history_mod)
-        
-    @allure.step('Проверяем нахождения созданного заказа на странице «Лента заказов» в разделе «В работе»')
-    def check_contain_placed_order_in_work(self, id_order_from_order_window):
+    @allure.step('Проверяем нахождения созданного заказа на странице «Лента заказов» в разделе «Готовы», в разделе «В работе» (по отдельности)')
+    def check_contain_placed_order_in_complited_and_in_work(self, id_order_from_order_window, status):
         id_order_from_order_window_mod = "0" + id_order_from_order_window
         self.wait_for_load_orders()
-        self.wait_for_change_orders_in_work()
-        ids_orders_list = self.get_ids_orders_in_work()
+        if status == "complited":
+            ids_orders_list = self.get_ids_orders_complited()
+        else:
+            self.wait_for_change_orders_in_work_to_number()
+            ids_orders_list = self.get_ids_orders_in_work()
         assert (id_order_from_order_window_mod in ids_orders_list)
     
     @allure.step('Проверяем увеличение счётчиков заказов при создании нового заказа')

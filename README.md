@@ -4,14 +4,17 @@
 
 ### Реализованные сценарии
 
-Созданы UI-тесты, покрывающие страницы 'qa-stellarburgers.education-services.ru', 'qa-stellarburgers.education-services.ru/feed', 'qa-stellarburgers.education-services.ru/account/profile'
+Созданы UI-тесты, покрывающие страницы 'qa-stellarburgers.education-services.ru', 'qa-stellarburgers.education-services.ru/feed', 'qa-stellarburgers.education-services.ru/login', 'qa-stellarburgers.education-services.ru/account/profile', 
+'qa-stellarburgers.education-services.ru/account/order-history', 'qa-stellarburgers.education-services.ru/forgot-password', 
+'qa-stellarburgers.education-services.ru/reset-password'
 
 Создан allure-отчёт
 
 ### Структура проекта
 
-- `methods` - пакет, содержащий методы для страниц Stellar Burgers
-- `tests` - пакет, содержащий тесты, разделенные по классам: `test_constructor_page.py`, `test_order_feed_page.py`
+- `methods` - пакет, содержащий методы для создания пользователя, и удаления пользователя для сервиса Stellar Burgers
+- `pages` - пакет, содержащий Page Object классы для страниц Stellar Burgers
+- `tests` - пакет, содержащий тесты, разделенные по функциональности: `test_main_functional.py`, `test_orders_feed.py` и т.д.
 
 ### Основа для написания автотестов
 

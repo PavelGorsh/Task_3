@@ -37,6 +37,12 @@ class BasePage:
     def get_id_order_elements_list(self, driver, element):
         return driver.find_elements(*element)
     
+    def get_current_url(self, driver):
+        return driver.current_url
+    
+    def send_keys(self, driver, element, comment):
+        driver.find_element(*element).send_keys(comment)
+    
     def find_element_with_wait(self, driver, element):
         WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable((element)))
         return driver.find_element(*element)
@@ -81,28 +87,3 @@ class BasePage:
                                 evt.initMouseEvent("dragend", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                                 source.dispatchEvent(evt);
                                 """, element_from, element_to)
-        
-    def send_keys(self, driver, element, comment):
-        driver.find_element(*element).send_keys(comment)
-
-    def get_current_url(self, driver):
-        return driver.current_url
-
-    
-
-
-
-
-
-
-
-    def move_element(self, locator_source, locator_target):
-        source = self.driver.find_element(*locator_source)
-        target = self.driver.find_element(*locator_target)
-        action = ActionChains(self.driver)
-        action.drag_and_drop(source, target).pause(5).perform()
-
-    def move_to_element_and_click(self, locator):
-        element = self.driver.find_element(*locator)
-        actions = ActionChains(self.driver)
-        actions.move_to_element(element).click(element).perform()

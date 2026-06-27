@@ -6,22 +6,11 @@ from pages.login_page import LoginPage
 from pages.orders_feed_page import OrdersFeedPage
 
 
-class TestOrdersFeedPage:
-    @allure.title('Проверка попадания в раздел «Лента заказов»')
-    def test_turn_to_orders_feed_page(self, driver):
-        # через фикстуру загружается страница с разделом «Конструктор»
-        orders_page = OrdersFeedPage(driver)
-        const_page = ConstructorPage(driver)
-        # Добавь явное ожидание для загрузки страницы
-        const_page.wait_for_load_constructor_page()
+'''
+Проверки раздела «Лента заказов»
+'''
 
-        # Перейди в раздел «Лента заказов»
-        const_page.click_on_orders_feed_page_btn()
-        # Добавь явное ожидание для загрузки страницы
-        orders_page.wait_for_load_orders_feed_page()
-        
-        # Проверка перехода на «Лента заказов»
-        orders_page.check_turn_by_ckick_orders_feed_btn()
+class TestOrdersFeed:
 
     @allure.title('Проверка клика на заказ и появления окна «Детали заказа»')
     def test_opening_details_window(self, driver):
@@ -47,7 +36,7 @@ class TestOrdersFeedPage:
         # Проверка открытия окна «Детали ингредиента»
         orders_page.check_details_window(order_title)
 
-    @allure.title('Проверка нахождения заказа в разделе «История заказов» и на странице «Лента заказов»')
+    @allure.title('Проверка нахождения заказа пользователя в разделе «История заказов» и на странице «Лента заказов»')
     def test_contain_placed_order_from_history_in_orders_feed(self, driver_user):
         driver = driver_user[0]
         email = driver_user[1][0]
@@ -98,59 +87,9 @@ class TestOrdersFeedPage:
         # Проверка нахождения созданного заказа на странице «Лента заказов»
         orders_page.check_contain_placed_order_from_history_in_orders_feed(id_order_from_order_window, id_order_from_order_history)
 
-    @allure.title('Проверка нахождения заказа в разделе «История заказов» и на странице «Лента заказов» в разделе «Готовы»')
-    def test_contain_placed_order_from_history_in_complited(self, driver_user):
-        driver = driver_user[0]
-        email = driver_user[1][0]
-        password = driver_user[1][1]
-        # через фикстуру загружается страница с разделом «Конструктор»
-        const_page = ConstructorPage(driver)
-        # Добавь явное ожидание для загрузки страницы
-        const_page.wait_for_load_constructor_page()
-
-        # Перетаскивание ингредиентов
-        const_page.drag_and_drop_ingredient_for_test_place_order()
-
-        # Логин пользователя
-        login_page = LoginPage(driver)
-        const_page.click_on_sing_in_account()
-        login_page.wait_for_load_login_page()
-        login_page.login_user(email, password)
-
-        # Создание заказа
-        const_page.click_place_order()
-
-        # Получение номера заказа из окна созданного заказа
-        const_page.wait_for_load_id_order_window()
-        const_page.wait_for_change_id_in_order_window()
-        id_order_from_order_window = const_page.get_id_order()
-
-        # Закрытие окна с заказом
-        const_page.click_on_cross()
-        const_page.wait_for_close_id_order_window()
-
-        # Переход на страницу «Личный кабинет»
-        account_page = AccountPage(driver)
-        const_page.click_on_personal_account()
-        account_page.wait_for_load_account_page()
-
-        # Переход в раздел «История заказов»
-        account_page.click_on_order_history()
-        account_page.wait_for_load_account_order_history_page()
-
-        # Получение номера заказа из раздела «История заказов»
-        id_order_from_order_history = account_page.get_id_order()
-
-        # Переход на страницу «Лента заказов»
-        orders_page = OrdersFeedPage(driver)
-        const_page.click_on_orders_feed_page_btn()
-        orders_page.wait_for_load_orders_feed_page()
-
-        # Проверка нахождения созданного заказа на странице «Лента заказов» в разделе «Готовы»
-        orders_page.check_contain_placed_order_from_history_in_complited(id_order_from_order_window, id_order_from_order_history)
-
-    @allure.title('Проверка нахождения заказа в разделе «В работе» на странице «Лента заказов» после создания заказа')
-    def test_contain_placed_order_in_work(self, driver_user):
+    @allure.title('Проверка нахождения заказа на странице «Лента заказов» в разделе «Готовы» и в разделе «В работе» после создания заказа')
+    @pytest.mark.parametrize('status', ["complited", "in_work"])
+    def test_contain_placed_order_in_complited_and_in_work(self, driver_user, status):
         driver = driver_user[0]
         email = driver_user[1][0]
         password = driver_user[1][1]
@@ -185,8 +124,8 @@ class TestOrdersFeedPage:
         const_page.click_on_orders_feed_page_btn()
         orders_page.wait_for_load_orders_feed_page()
 
-        # Проверка нахождения созданного заказа на странице «Лента заказов» в разделе «В работе»
-        orders_page.check_contain_placed_order_in_work(id_order_from_order_window)
+        # Проверка нахождения созданного заказа на странице «Лента заказов» в разделе «Готовы», в разделе «В работе»
+        orders_page.check_contain_placed_order_in_complited_and_in_work(id_order_from_order_window, status)
 
     @allure.title('Проверка увеличение счётчиков «Выполнено за всё время» и «Выполнено за сегодня» при создании нового заказа')
     @pytest.mark.parametrize('period', ["all_time", "today"])
