@@ -99,7 +99,7 @@ class TestConstructorPage:
         login_page.login_user(email, password)
 
         # Создание заказа
-        const_page.place_order()
+        const_page.click_place_order()
 
         # Проверка появления окна с новым созданным заказом
         const_page.check_place_order()

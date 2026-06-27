@@ -22,7 +22,7 @@ BASKET_ZONE = [By.CSS_SELECTOR, "section.BurgerConstructor_basket__29Cd7.mt-25 u
 SIGN_IN_ACCOUNT = [By.XPATH, "//button[text()='Войти в аккаунт']"]
 PLACE_ORDER_BTN = [By.XPATH, "//button[text()='Оформить заказ']"]
 
-ID_ORDER_WINDOW = [By.XPATH, "//p[text()='идентификатор заказа']"]
+ID_ORDER_WINDOW_LABEL = [By.XPATH, "//p[text()='идентификатор заказа']"]
 ID_CREATED_ORDER = [By.XPATH, "//p[text()='идентификатор заказа']/parent::div/h2"]
 
 PERSONAL_ACCOUNT = [By.XPATH, "//p[text()='Личный Кабинет']/parent::a"]

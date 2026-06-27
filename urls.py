@@ -1,9 +1,11 @@
 # URLs UI
 CONSTRUCTOR_URL = "https://qa-stellarburgers.education-services.ru/"
-ORDERS_FEED_URL = "https://qa-stellarburgers.education-services.ru/feed"
-LOGIN_URL = "https://qa-stellarburgers.education-services.ru/login"
-ACCOUNT_PROFILE_URL = "https://qa-stellarburgers.education-services.ru/account/profile"
-ACCOUNT_ORDER_HISTORY_URL = "https://qa-stellarburgers.education-services.ru/account/order-history"
+ORDERS_FEED_URL = CONSTRUCTOR_URL + "feed"
+LOGIN_URL = CONSTRUCTOR_URL + "login"
+ACCOUNT_PROFILE_URL = CONSTRUCTOR_URL + "account/profile"
+ACCOUNT_ORDER_HISTORY_URL = CONSTRUCTOR_URL + "account/order-history"
+FORGOT_PASSWORD_URL = CONSTRUCTOR_URL + "forgot-password"
+RESET_PASSWORD_URL = CONSTRUCTOR_URL + "reset-password"
 
 # URLs API
 BASE_URL = "https://qa-stellarburgers.education-services.ru/api/"

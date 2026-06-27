@@ -1,4 +1,5 @@
 import allure
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver import ActionChains
@@ -9,12 +10,18 @@ class BasePage:
     def wait_for_load(self, driver, element):
         WebDriverWait(driver, 5).until(expected_conditions.visibility_of_element_located((element)))
 
+    def wait_element_until_invisibility(self, driver, element):
+        WebDriverWait(driver, 20).until(expected_conditions.invisibility_of_element_located(element))
+
+    def wait_for_change_text_of_element(self, driver, element, text):
+        try:
+            WebDriverWait(driver, 10).until(lambda d: d.find_element(*element).text != text)
+        except TimeoutException:
+            raise TimeoutException("Текст не изменился за отведённое время")
+
     def click_button(self, driver, element):
         WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable((element)))
         driver.find_element(*element).click()
-
-    def wait_element_until_invisibility(self, driver, element):
-        WebDriverWait(driver, 20).until(expected_conditions.invisibility_of_element_located(element))
 
     def element_is_displayed(self, driver, element):
         self.wait_for_load(driver, element)
@@ -26,6 +33,9 @@ class BasePage:
 
     def get_text_attribute(self, driver, element):
         return driver.find_element(*element).text
+    
+    def get_id_order_elements_list(self, driver, element):
+        return driver.find_elements(*element)
     
     def find_element_with_wait(self, driver, element):
         WebDriverWait(driver, 5).until(expected_conditions.element_to_be_clickable((element)))
@@ -77,9 +87,6 @@ class BasePage:
 
     def get_current_url(self, driver):
         return driver.current_url
-    
-    def wait_for_change_text_of_element(self, driver, element, text):
-        WebDriverWait(driver, 10).until(expected_conditions.text_to_be_present_in_element(element, text))
 
     
 

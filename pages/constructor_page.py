@@ -22,14 +22,17 @@ class ConstructorPage(BasePage):
         self.wait_element_until_invisibility(self.driver, CPL.DETAILS_WINDOW)
 
     def wait_for_load_id_order_window(self):
-        self.wait_for_load(self.driver, CPL.ID_ORDER_WINDOW)
+        self.wait_for_load(self.driver, CPL.ID_ORDER_WINDOW_LABEL)
     
     def wait_for_change_id_in_order_window(self):
         self.wait_for_change_text_of_element(self.driver, CPL.ID_CREATED_ORDER, "9999")
 
+    def wait_for_close_id_order_window(self):
+        self.wait_element_until_invisibility(self.driver, CPL.ID_ORDER_WINDOW_LABEL)
+
     # НАЖАТИЯ
 
-    @allure.step('Нажимаем на кнопку «Лента заказов» в разделе «Конструктор»')
+    @allure.step('Нажимаем «Лента заказов» в разделе «Конструктор»')
     def click_on_orders_feed_page_btn(self):
         if(data.DRIVER_NAME == 'chrome'):
             self.click_button(self.driver, CPL.ORDERS_FEED_HEADER_BTN)
@@ -45,7 +48,10 @@ class ConstructorPage(BasePage):
 
     @allure.step('Нажимаем крестик')
     def click_on_cross(self):
-        self.click_button(self.driver, CPL.CROSS_BTN)
+        if(data.DRIVER_NAME == 'chrome'):
+            self.click_button(self.driver, CPL.CROSS_BTN)
+        else:
+            self.click_virt_mouse(self.driver, CPL.CROSS_BTN)
 
     @allure.step('Нажимаем «Войти в аккаунт»')
     def click_on_sing_in_account(self):
@@ -55,7 +61,7 @@ class ConstructorPage(BasePage):
             self.click_virt_mouse(self.driver, CPL.SIGN_IN_ACCOUNT)
 
     @allure.step('Нажимаем «Оформить заказ»')
-    def place_order(self):
+    def click_place_order(self):
         self.click_button(self.driver, CPL.PLACE_ORDER_BTN)
 
     @allure.step('Нажимаем «Личный кабинет»')
@@ -77,6 +83,12 @@ class ConstructorPage(BasePage):
     def drag_and_drop_ingredient_for_test_place_order(self):
         self.drag_and_drop_ingredient(CPL.INGR_FLUOR_BUN)
         self.drag_and_drop_ingredient(CPL.INGR_SPICY_SAUCE)
+
+    # ПОЛУЧЕНИЕ ДАННЫХ
+
+    @allure.step('Получаем номер заказа из окна созданного заказа')
+    def get_id_order(self):
+        return self.get_text_attribute(self.driver, CPL.ID_CREATED_ORDER)
     
     # ПРОВЕРКИ
 
@@ -107,6 +119,6 @@ class ConstructorPage(BasePage):
     def check_place_order(self):
         self.wait_for_load_id_order_window()
         self.wait_for_change_id_in_order_window()
-        assert (self.element_is_displayed(self.driver, CPL.ID_ORDER_WINDOW) and 
+        assert (self.element_is_displayed(self.driver, CPL.ID_ORDER_WINDOW_LABEL) and 
                 self.element_is_displayed(self.driver, CPL.ID_CREATED_ORDER) and 
-                self.get_text_attribute(self.driver, CPL.ID_ORDER_WINDOW) != "9999")
+                self.get_text_attribute(self.driver, CPL.ID_CREATED_ORDER) != "9999")

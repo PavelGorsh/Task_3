@@ -17,15 +17,25 @@ class AccountPage(BasePage):
     def wait_for_load_account_order_history_page(self):
         self.wait_for_load(self.driver, APL.HISTORY_BTN_ACTIVE)
 
+    def wait_for_load_orders_in_history(self):
+        self.wait_for_load(self.driver, APL.ID_ORDER_FROM_HISTORY)
+
     # НАЖАТИЯ
 
     @allure.step('Нажимаем «История заказов»')
     def click_on_order_history(self):
         self.click_button(self.driver, APL.HISTORY_BTN)
 
-    # ВВОД ДАННЫХ В ПОЛЯ И НАЖАТИЕ
+    @allure.step('Нажимаем «Выход»')
+    def click_on_exit(self):
+        self.click_button(self.driver, APL.EXIT_BTN)
 
+    # ПОЛУЧЕНИЕ ДАННЫХ
 
+    @allure.step('Получаем номер заказа из раздела «История заказов»')
+    def get_id_order(self):
+        self.wait_for_load_orders_in_history()
+        return self.get_text_attribute(self.driver, APL.ID_ORDER_FROM_HISTORY)
 
     # ПРОВЕРКИ
 
@@ -38,3 +48,4 @@ class AccountPage(BasePage):
     def check_turn_to_order_history(self):
         assert (urls.ACCOUNT_ORDER_HISTORY_URL == self.get_current_url(self.driver) and 
                 self.element_is_displayed(self.driver, APL.HISTORY_BTN_ACTIVE))
+        

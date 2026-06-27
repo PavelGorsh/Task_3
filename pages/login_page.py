@@ -17,11 +17,19 @@ class LoginPage(BasePage):
 
     # НАЖАТИЯ
 
+    @allure.step('Нажимаем «Войти»') 
     def click_on_sing_in(self):
         if(data.DRIVER_NAME == 'chrome'):
             self.click_button(self.driver, LPL.SIGN_IN)
         else:
             self.click_virt_mouse(self.driver, LPL.SIGN_IN)
+
+    @allure.step('Нажимаем «Восстановить пароль»')
+    def click_on_recover_password(self):
+        if(data.DRIVER_NAME == 'chrome'):
+            self.click_button(self.driver, LPL.RECOVER_PASSWORD)
+        else:
+            self.click_virt_mouse(self.driver, LPL.RECOVER_PASSWORD)
 
     # ВВОД ДАННЫХ В ПОЛЯ И НАЖАТИЕ
 
@@ -35,5 +43,10 @@ class LoginPage(BasePage):
 
     @allure.step('Проверяем переход по клику на «Личный Кабинет» без авторизации')    
     def check_turn_by_ckick_personal_account_btn_without_auth(self):
+        assert (urls.LOGIN_URL == self.get_current_url(self.driver) and 
+                self.element_is_displayed(self.driver, LPL.SIGN_IN))
+        
+    @allure.step('Проверяем переход по клику на «Выход» на странице «Личный Кабинет»')    
+    def check_turn_by_ckick_exit_btn_on_personal_account_page(self):
         assert (urls.LOGIN_URL == self.get_current_url(self.driver) and 
                 self.element_is_displayed(self.driver, LPL.SIGN_IN))
